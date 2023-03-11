@@ -9,8 +9,8 @@
     "@types/jsonwebtoken": "^9.0.1",
     "typescript": "^4.9.5"
   },
-  "name": "library",
-  "version": "1.0.0",
+  "name": "@secondredo/libraryv",
+  "version": "1.0.1",
   "description": "commom functionality between services",
   "main": "./dist/index.js",
   "scripts": {
