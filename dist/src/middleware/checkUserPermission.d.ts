@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import mongoose from "mongoose";
 declare global {
     namespace Express {
         interface Request {
             user: {
                 Email: string;
-                id: mongoose.Types.ObjectId;
+                id: string;
                 Role: "Member" | "Admin";
             };
         }

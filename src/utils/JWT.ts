@@ -16,17 +16,19 @@ export class JWT {
       )) as string;
       return token;
     } catch (err) {
-      console.log(err);
+      console.log({ err });
       throw new Error("error while creating token");
     }
   }
   static verify(token: string) {
+    console.log({ token });
+
     let { Email, id, Role } = jwt.verify(
       token,
       process.env["jwt-secret"] as string
     ) as {
       Email: string;
-      id: mongoose.Types.ObjectId;
+      id: string;
       Role: "Member" | "Admin";
     };
 

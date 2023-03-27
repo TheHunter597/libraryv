@@ -23,12 +23,13 @@ class JWT {
                 return token;
             }
             catch (err) {
-                console.log(err);
+                console.log({ err });
                 throw new Error("error while creating token");
             }
         });
     }
     static verify(token) {
+        console.log({ token });
         let { Email, id, Role } = jsonwebtoken_1.default.verify(token, process.env["jwt-secret"]);
         return { Email, id, Role };
     }

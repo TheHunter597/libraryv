@@ -8,7 +8,7 @@ export declare class JWT {
     static sign(userData: userData): Promise<string>;
     static verify(token: string): {
         Email: string;
-        id: mongoose.Types.ObjectId;
+        id: string;
         Role: "Member" | "Admin";
     };
 }

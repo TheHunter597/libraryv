@@ -14,15 +14,20 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./middleware/checkUserPermission"), exports);
-__exportStar(require("./middleware/validateInputs"), exports);
+__exportStar(require("./src/middleware/checkUserPermission"), exports);
+__exportStar(require("./src/middleware/validateInputs"), exports);
+__exportStar(require("./src/middleware/checkUserSignedIn"), exports);
 ////
-__exportStar(require("./errors/badRequest"), exports);
-__exportStar(require("./errors/databaseError"), exports);
-__exportStar(require("./errors/errorHandler"), exports);
-__exportStar(require("./errors/forbidden"), exports);
-__exportStar(require("./errors/notAuthorized"), exports);
-__exportStar(require("./errors/notFound"), exports);
+__exportStar(require("./src/errors/badRequest"), exports);
+__exportStar(require("./src/errors/databaseError"), exports);
+__exportStar(require("./src/errors/errorHandler"), exports);
+__exportStar(require("./src/errors/forbidden"), exports);
+__exportStar(require("./src/errors/notAuthorized"), exports);
+__exportStar(require("./src/errors/notFound"), exports);
 ////
-__exportStar(require("./utils/JWT"), exports);
-__exportStar(require("./utils/connectDB"), exports);
+__exportStar(require("./src/utils/JWT"), exports);
+__exportStar(require("./src/utils/connectDB"), exports);
+///
+__exportStar(require("./src/event/consumer"), exports);
+__exportStar(require("./src/event/producer"), exports);
+__exportStar(require("./src/event/types"), exports);

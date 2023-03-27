@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import mongoose from "mongoose";
 import { ForbiddenError } from "../errors/forbidden";
 
 declare global {
@@ -7,7 +6,7 @@ declare global {
     interface Request {
       user: {
         Email: string;
-        id: mongoose.Types.ObjectId;
+        id: string;
         Role: "Member" | "Admin";
       };
     }
