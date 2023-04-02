@@ -16,7 +16,7 @@ export interface TicketCreated {
 }
 
 export interface TicketUpdated {
-  topic: Topics.TicketUpdated;
+  Topic: Topics.TicketUpdated;
   data: ticketCreatedMessageContent;
 }
 

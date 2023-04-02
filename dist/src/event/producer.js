@@ -9,8 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TicketCreatedProducer = void 0;
-const types_1 = require("./types");
+exports.Producer = void 0;
 class Producer {
     constructor(client) {
         this.client = client;
@@ -30,6 +29,7 @@ class Producer {
                 const producer = this.client.producer({ allowAutoTopicCreation });
                 yield producer.connect();
                 this.producer = producer;
+                console.log("producer created");
             }
             else {
                 const producer = this.client.producer({
@@ -38,17 +38,11 @@ class Producer {
                 });
                 const transaction = yield producer.transaction();
                 this.transaction = transaction;
+                console.log("transaction created");
             }
-            console.log("producer created");
         });
     }
-}
-class TicketCreatedProducer extends Producer {
-    constructor(kafka) {
-        super(kafka);
-        this.topic = types_1.Topics.TicketCreated;
-    }
-    produceMessage({ data, options = { delay: 0 }, }) {
+    produceMessage({ data }) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.producer) {
                 throw new Error("Please initialze the producer first");
@@ -62,7 +56,7 @@ class TicketCreatedProducer extends Producer {
             });
         });
     }
-    produceMessageExactlyOnce(data, options = { delay: 0 }) {
+    produceMessageExactlyOnce(data) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.transaction) {
                 throw new Error("Please initialze the transaction first");
@@ -71,8 +65,6 @@ class TicketCreatedProducer extends Producer {
                 throw new Error("Please provide message data");
             }
             try {
-                let { delay } = options;
-                yield new Promise((resolve) => setTimeout(() => resolve, delay));
                 yield this.transaction.send({
                     topic: this.topic,
                     messages: [{ value: JSON.stringify(data) }],
@@ -85,4 +77,5 @@ class TicketCreatedProducer extends Producer {
         });
     }
 }
-exports.TicketCreatedProducer = TicketCreatedProducer;
+exports.Producer = Producer;
+// const newProducer = new Producer(kafka);
