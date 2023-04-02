@@ -25,20 +25,30 @@ class Producer {
             /// otherwise just use produceMessage
             let { ExactlyOnce } = options;
             if (!ExactlyOnce) {
-                let { allowAutoTopicCreation } = options;
-                const producer = this.client.producer({ allowAutoTopicCreation });
-                yield producer.connect();
-                this.producer = producer;
-                console.log("producer created");
+                try {
+                    let { allowAutoTopicCreation } = options;
+                    const producer = this.client.producer({ allowAutoTopicCreation });
+                    yield producer.connect();
+                    this.producer = producer;
+                    console.log("producer created");
+                }
+                catch (err) {
+                    console.log(err);
+                }
             }
             else {
-                const producer = this.client.producer({
-                    maxInFlightRequests: 1,
-                    idempotent: true,
-                });
-                const transaction = yield producer.transaction();
-                this.transaction = transaction;
-                console.log("transaction created");
+                try {
+                    const producer = this.client.producer({
+                        maxInFlightRequests: 1,
+                        idempotent: true,
+                    });
+                    const transaction = yield producer.transaction();
+                    this.transaction = transaction;
+                    console.log("transaction created");
+                }
+                catch (err) {
+                    console.log(err);
+                }
             }
         });
     }
@@ -78,4 +88,3 @@ class Producer {
     }
 }
 exports.Producer = Producer;
-// const newProducer = new Producer(kafka);

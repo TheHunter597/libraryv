@@ -13,7 +13,7 @@ export interface TicketCreated {
     data: ticketCreatedMessageContent;
 }
 export interface TicketUpdated {
-    topic: Topics.TicketUpdated;
+    Topic: Topics.TicketUpdated;
     data: ticketCreatedMessageContent;
 }
 export interface EventPrototype {

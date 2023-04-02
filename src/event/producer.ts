@@ -1,10 +1,5 @@
 import { Kafka, Producer as ProducerType, Transaction } from "kafkajs";
-import {
-  EventPrototype,
-  TicketCreated,
-  Topics,
-  ticketCreatedMessageContent,
-} from "./types";
+import { EventPrototype, ticketCreatedMessageContent } from "./types";
 
 export abstract class Producer<T extends EventPrototype> {
   abstract topic: T["Topic"];
@@ -81,7 +76,4 @@ export abstract class Producer<T extends EventPrototype> {
       await this.transaction.abort();
     }
   }
-  async closeProducer() {}
 }
-
-// const newProducer = new Producer(kafka);

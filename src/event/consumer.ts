@@ -42,23 +42,3 @@ abstract class Consumer<T extends EventPrototype> {
     }
   }
 }
-
-export class TicketCreatedClass extends Consumer<TicketCreated> {
-  topic: Topics.TicketCreated = Topics.TicketCreated;
-  groupId = "ticket-created-consumer";
-  constructor(client: Kafka) {
-    super(client);
-  }
-  async onMessage(options: { delay: number } = { delay: 0 }) {
-    let { delay } = options;
-    if (!this.consumer) {
-      throw new Error("Please initialize consumer first");
-    }
-    this.consumer.run({
-      eachMessage: async ({ message, topic, partition }) => {
-        new Promise((resolve) => setTimeout(resolve, delay));
-        console.log({ msg: this.parseMessage(message) });
-      },
-    });
-  }
-}

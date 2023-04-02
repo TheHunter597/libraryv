@@ -9,8 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TicketCreatedClass = void 0;
-const types_1 = require("./types");
 class Consumer {
     constructor(client) {
         this.client = client;
@@ -48,25 +46,3 @@ class Consumer {
         }
     }
 }
-class TicketCreatedClass extends Consumer {
-    constructor(client) {
-        super(client);
-        this.topic = types_1.Topics.TicketCreated;
-        this.groupId = "ticket-created-consumer";
-    }
-    onMessage(options = { delay: 0 }) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let { delay } = options;
-            if (!this.consumer) {
-                throw new Error("Please initialize consumer first");
-            }
-            this.consumer.run({
-                eachMessage: ({ message, topic, partition }) => __awaiter(this, void 0, void 0, function* () {
-                    new Promise((resolve) => setTimeout(resolve, delay));
-                    console.log({ msg: this.parseMessage(message) });
-                }),
-            });
-        });
-    }
-}
-exports.TicketCreatedClass = TicketCreatedClass;
