@@ -13,5 +13,5 @@ export declare abstract class Producer<T extends EventPrototype> {
     produceMessage({ data }: {
         data: ticketCreatedMessageContent;
     }): Promise<void>;
-    produceMessageExactlyOnce(data: ticketCreatedMessageContent): Promise<void>;
+    shutdownProducer(): Promise<void>;
 }

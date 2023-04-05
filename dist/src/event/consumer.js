@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Consumer = void 0;
 class Consumer {
     constructor(client) {
         this.client = client;
@@ -46,3 +47,4 @@ class Consumer {
         }
     }
 }
+exports.Consumer = Consumer;

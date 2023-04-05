@@ -1,7 +1,7 @@
 import { Kafka, Consumer as ConsumerType, Message } from "kafkajs";
-import { EventPrototype, TicketCreated, Topics } from "./types";
+import { EventPrototype } from "./types";
 
-abstract class Consumer<T extends EventPrototype> {
+export abstract class Consumer<T extends EventPrototype> {
   abstract topic: T["Topic"];
   abstract groupId: string;
   private client: Kafka;

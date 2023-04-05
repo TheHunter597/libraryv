@@ -21,35 +21,11 @@ class Producer {
         ExactlyOnce: false,
     }) {
         return __awaiter(this, void 0, void 0, function* () {
-            /// if ExactlyOnce is set to true produceMessageExactlyOnce must be used to produce messages
-            /// otherwise just use produceMessage
-            let { ExactlyOnce } = options;
-            if (!ExactlyOnce) {
-                try {
-                    let { allowAutoTopicCreation } = options;
-                    const producer = this.client.producer({ allowAutoTopicCreation });
-                    yield producer.connect();
-                    this.producer = producer;
-                    console.log("producer created");
-                }
-                catch (err) {
-                    console.log(err);
-                }
-            }
-            else {
-                try {
-                    const producer = this.client.producer({
-                        maxInFlightRequests: 1,
-                        idempotent: true,
-                    });
-                    const transaction = yield producer.transaction();
-                    this.transaction = transaction;
-                    console.log("transaction created");
-                }
-                catch (err) {
-                    console.log(err);
-                }
-            }
+            let { allowAutoTopicCreation } = options;
+            const producer = this.client.producer({ allowAutoTopicCreation });
+            yield producer.connect();
+            this.producer = producer;
+            console.log("producer created");
         });
     }
     produceMessage({ data }) {
@@ -66,23 +42,20 @@ class Producer {
             });
         });
     }
-    produceMessageExactlyOnce(data) {
+    shutdownProducer() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!this.transaction) {
-                throw new Error("Please initialze the transaction first");
-            }
-            if (!data) {
-                throw new Error("Please provide message data");
-            }
+            console.log("Shutting down Kafka producer gracefully...");
+            if (!this.producer)
+                return;
             try {
-                yield this.transaction.send({
-                    topic: this.topic,
-                    messages: [{ value: JSON.stringify(data) }],
-                });
-                yield this.transaction.commit();
+                // Disconnect from the Kafka cluster
+                yield this.producer.disconnect();
+                console.log("Kafka producer has been successfully shutdown.");
+                process.exit(0);
             }
-            catch (e) {
-                yield this.transaction.abort();
+            catch (err) {
+                console.error("Error occurred during Kafka producer shutdown:", err);
+                process.exit(1);
             }
         });
     }
