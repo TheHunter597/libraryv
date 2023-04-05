@@ -21,8 +21,6 @@ export class JWT {
     }
   }
   static verify(token: string) {
-    console.log({ token });
-
     let { Email, id, Role } = jwt.verify(
       token,
       process.env["jwt-secret"] as string
