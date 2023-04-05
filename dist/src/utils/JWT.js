@@ -29,7 +29,6 @@ class JWT {
         });
     }
     static verify(token) {
-        console.log({ token });
         let { Email, id, Role } = jsonwebtoken_1.default.verify(token, process.env["jwt-secret"]);
         return { Email, id, Role };
     }

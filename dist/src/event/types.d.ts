@@ -20,3 +20,9 @@ export interface EventPrototype {
     Topic: Topics;
     data: ticketCreatedMessageContent;
 }
+export declare enum statusType {
+    created = "created",
+    cancelled = "cancelled",
+    pending = "Pending",
+    complete = "complete"
+}

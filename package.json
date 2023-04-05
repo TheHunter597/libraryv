@@ -18,7 +18,7 @@
     "/dist"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "npm version patch && rimraf ./dist && tsc && npm publish"
   },
   "author": "mohamed-hossam",
   "license": "ISC"
