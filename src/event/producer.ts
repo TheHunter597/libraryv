@@ -1,5 +1,5 @@
 import { Kafka, Producer as ProducerType, Transaction } from "kafkajs";
-import { EventPrototype, ticketCreatedMessageContent } from "./types";
+import { EventPrototype, messagesContent } from "./types";
 
 export abstract class Producer<T extends EventPrototype> {
   abstract topic: T["Topic"];
@@ -12,9 +12,8 @@ export abstract class Producer<T extends EventPrototype> {
     this.transaction = null;
   }
   async createProducer(
-    options: { allowAutoTopicCreation: boolean; ExactlyOnce: boolean } = {
+    options: { allowAutoTopicCreation: boolean } = {
       allowAutoTopicCreation: false,
-      ExactlyOnce: false,
     }
   ) {
     let { allowAutoTopicCreation } = options;
@@ -23,7 +22,7 @@ export abstract class Producer<T extends EventPrototype> {
     this.producer = producer;
     console.log("producer created");
   }
-  async produceMessage({ data }: { data: ticketCreatedMessageContent }) {
+  async produceMessage({ data }: { data: T["data"] }) {
     if (!this.producer) {
       throw new Error("Please initialze the producer first");
     }
