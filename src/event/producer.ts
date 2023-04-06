@@ -11,7 +11,7 @@ export abstract class Producer<T extends EventPrototype> {
     this.producer = null;
     this.transaction = null;
   }
-  async createProducer(
+  protected async createProducer(
     options: { allowAutoTopicCreation: boolean } = {
       allowAutoTopicCreation: false,
     }

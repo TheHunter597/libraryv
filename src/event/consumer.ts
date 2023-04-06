@@ -12,7 +12,7 @@ export abstract class Consumer<T extends EventPrototype> {
     this.consumer = null;
   }
 
-  async createConsumer(
+  protected async createConsumer(
     options: { fromBeginning: boolean; timeout: number } = {
       fromBeginning: true,
       timeout: 10000,

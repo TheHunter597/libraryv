@@ -18,7 +18,6 @@ class Producer {
     }
     createProducer(options = {
         allowAutoTopicCreation: false,
-        ExactlyOnce: false,
     }) {
         return __awaiter(this, void 0, void 0, function* () {
             let { allowAutoTopicCreation } = options;

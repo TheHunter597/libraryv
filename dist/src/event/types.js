@@ -5,7 +5,11 @@ var Topics;
 (function (Topics) {
     Topics["TicketCreated"] = "ticket-created";
     Topics["TicketUpdated"] = "ticket-updated";
+    /////////////
+    Topics["OrderCreated"] = "order-created";
+    Topics["OrderCancelled"] = "order-cancelled";
 })(Topics = exports.Topics || (exports.Topics = {}));
+////
 var statusType;
 (function (statusType) {
     statusType["created"] = "created";
