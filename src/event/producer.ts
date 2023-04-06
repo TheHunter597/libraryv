@@ -11,7 +11,7 @@ export abstract class Producer<T extends EventPrototype> {
     this.producer = null;
     this.transaction = null;
   }
-  protected async createProducer(
+  async createProducer(
     options: { allowAutoTopicCreation: boolean } = {
       allowAutoTopicCreation: false,
     }
@@ -20,6 +20,7 @@ export abstract class Producer<T extends EventPrototype> {
     const producer = this.client.producer({ allowAutoTopicCreation });
     await producer.connect();
     this.producer = producer;
+
     console.log("producer created");
   }
   async produceMessage({ data }: { data: T["data"] }) {
