@@ -33,7 +33,7 @@ export interface orderCreatedMessageContent {
     id: string;
     ticket: {
         Title: string;
-        Price: string;
+        Price: number;
         id: string;
     };
     userId: string;

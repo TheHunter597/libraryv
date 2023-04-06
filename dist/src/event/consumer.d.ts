@@ -7,7 +7,7 @@ export declare abstract class Consumer<T extends EventPrototype> {
     consumer: ConsumerType | null;
     abstract onMessage(): void;
     constructor(client: Kafka);
-    protected createConsumer(options?: {
+    createConsumer(options?: {
         fromBeginning: boolean;
         timeout: number;
     }): Promise<ConsumerType>;

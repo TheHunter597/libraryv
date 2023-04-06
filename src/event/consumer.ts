@@ -6,7 +6,7 @@ export abstract class Consumer<T extends EventPrototype> {
   abstract groupId: string;
   private client: Kafka;
   public consumer: ConsumerType | null;
-  abstract onMessage(): void;
+  abstract listen(): void;
   constructor(client: Kafka) {
     this.client = client;
     this.consumer = null;
@@ -39,6 +39,19 @@ export abstract class Consumer<T extends EventPrototype> {
     } else {
       value = JSON.parse(message.value?.toString());
       return value;
+    }
+  }
+  protected async shutdownConsumer() {
+    console.log("Shutting down Kafka consumer gracefully...");
+    if (!this.consumer) return;
+    try {
+      // Disconnect from the Kafka cluster
+      await this.consumer.disconnect();
+      console.log("Kafka consumer has been successfully shutdown.");
+      process.exit(0);
+    } catch (err) {
+      console.error("Error occurred during Kafka consumer shutdown:", err);
+      process.exit(1);
     }
   }
 }
