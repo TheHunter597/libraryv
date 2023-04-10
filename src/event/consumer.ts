@@ -41,7 +41,7 @@ export abstract class Consumer<T extends EventPrototype> {
       return value;
     }
   }
-  protected async shutdownConsumer() {
+  async shutdownConsumer() {
     console.log("Shutting down Kafka consumer gracefully...");
     if (!this.consumer) return;
     try {

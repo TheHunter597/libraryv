@@ -46,5 +46,22 @@ class Consumer {
             return value;
         }
     }
+    shutdownConsumer() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("Shutting down Kafka consumer gracefully...");
+            if (!this.consumer)
+                return;
+            try {
+                // Disconnect from the Kafka cluster
+                yield this.consumer.disconnect();
+                console.log("Kafka consumer has been successfully shutdown.");
+                process.exit(0);
+            }
+            catch (err) {
+                console.error("Error occurred during Kafka consumer shutdown:", err);
+                process.exit(1);
+            }
+        });
+    }
 }
 exports.Consumer = Consumer;

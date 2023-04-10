@@ -33,7 +33,7 @@ export abstract class Producer<T extends EventPrototype> {
 
     await this.producer.send({
       topic: this.topic,
-      messages: [{ key: "key1", value: JSON.stringify(data) }],
+      messages: [{ value: JSON.stringify(data) }],
     });
   }
   async shutdownProducer() {

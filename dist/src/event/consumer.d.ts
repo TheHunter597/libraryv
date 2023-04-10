@@ -5,11 +5,12 @@ export declare abstract class Consumer<T extends EventPrototype> {
     abstract groupId: string;
     private client;
     consumer: ConsumerType | null;
-    abstract onMessage(): void;
+    abstract listen(): void;
     constructor(client: Kafka);
     createConsumer(options?: {
         fromBeginning: boolean;
         timeout: number;
     }): Promise<ConsumerType>;
     protected parseMessage(message: Message): T["data"];
+    protected shutdownConsumer(): Promise<void>;
 }
