@@ -12,5 +12,5 @@ export declare abstract class Consumer<T extends EventPrototype> {
         timeout: number;
     }): Promise<ConsumerType>;
     protected parseMessage(message: Message): T["data"];
-    protected shutdownConsumer(): Promise<void>;
+    shutdownConsumer(): Promise<void>;
 }

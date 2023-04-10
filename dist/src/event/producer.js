@@ -37,7 +37,7 @@ class Producer {
             }
             yield this.producer.send({
                 topic: this.topic,
-                messages: [{ key: "key1", value: JSON.stringify(data) }],
+                messages: [{ value: JSON.stringify(data) }],
             });
         });
     }
