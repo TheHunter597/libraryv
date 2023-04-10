@@ -22,6 +22,7 @@ export interface ticketMessageContent {
   price: number;
   id: string;
   userId: string;
+  version: number;
 }
 
 export interface TicketCreatedEvent {
