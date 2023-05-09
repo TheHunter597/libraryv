@@ -23,6 +23,7 @@ export interface ticketMessageContent {
   id: string;
   userId: string;
   version: number;
+  reservedBy?: string;
 }
 
 export interface TicketCreatedEvent {
