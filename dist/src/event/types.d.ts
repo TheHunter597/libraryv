@@ -14,6 +14,8 @@ export interface ticketMessageContent {
     price: number;
     id: string;
     userId: string;
+    version: number;
+    reservedBy?: string;
 }
 export interface TicketCreatedEvent {
     Topic: Topics.TicketCreated;
