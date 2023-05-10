@@ -11,7 +11,24 @@ export abstract class Consumer<T extends EventPrototype> {
     this.client = client;
     this.consumer = null;
   }
-
+  private async createAdmin() {
+    let admin = this.client.admin();
+    await admin.connect();
+    return {
+      topicExists: async () => {
+        let topics = await admin.listTopics();
+        return topics.includes(this.topic);
+      },
+      createTopic: async () => {
+        await admin.createTopics({
+          topics: [
+            { topic: this.topic, numPartitions: 2, replicationFactor: 1 },
+          ],
+          waitForLeaders: true,
+        });
+      },
+    };
+  }
   async createConsumer(
     options: { fromBeginning: boolean; timeout: number } = {
       fromBeginning: true,
@@ -23,6 +40,10 @@ export abstract class Consumer<T extends EventPrototype> {
       groupId: this.groupId,
       heartbeatInterval: timeout,
     });
+    let admin = await this.createAdmin();
+    if (!(await admin.topicExists())) {
+      await admin.createTopic();
+    }
     await consumer.connect();
     await consumer.subscribe({
       topics: [this.topic],

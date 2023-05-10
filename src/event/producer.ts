@@ -3,13 +3,16 @@ import { EventPrototype, messagesContent } from "./types";
 
 export abstract class Producer<T extends EventPrototype> {
   abstract topic: T["Topic"];
-  protected producer: ProducerType | null;
+  private producer: ProducerType | null;
   protected transaction: Transaction | null;
   private client: Kafka;
   constructor(client: Kafka) {
     this.client = client;
     this.producer = null;
     this.transaction = null;
+  }
+  get getProducer() {
+    return this.producer;
   }
   private async createAdmin() {
     let admin = this.client.admin();
@@ -37,6 +40,7 @@ export abstract class Producer<T extends EventPrototype> {
     let { allowAutoTopicCreation } = options;
     const producer = this.client.producer({ allowAutoTopicCreation });
     await producer.connect();
+
     this.producer = producer;
     let admin = await this.createAdmin();
     if (!(await admin.topicExists())) {

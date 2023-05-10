@@ -16,6 +16,26 @@ class Producer {
         this.producer = null;
         this.transaction = null;
     }
+    createAdmin() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let admin = this.client.admin();
+            yield admin.connect();
+            return {
+                topicExists: () => __awaiter(this, void 0, void 0, function* () {
+                    let topics = yield admin.listTopics();
+                    return topics.includes(this.topic);
+                }),
+                createTopic: () => __awaiter(this, void 0, void 0, function* () {
+                    yield admin.createTopics({
+                        topics: [
+                            { topic: this.topic, numPartitions: 2, replicationFactor: 1 },
+                        ],
+                        waitForLeaders: true,
+                    });
+                }),
+            };
+        });
+    }
     createProducer(options = {
         allowAutoTopicCreation: false,
     }) {
@@ -24,6 +44,10 @@ class Producer {
             const producer = this.client.producer({ allowAutoTopicCreation });
             yield producer.connect();
             this.producer = producer;
+            let admin = yield this.createAdmin();
+            if (!(yield admin.topicExists())) {
+                yield admin.createTopic();
+            }
             console.log("producer created");
         });
     }
