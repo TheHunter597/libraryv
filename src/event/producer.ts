@@ -14,24 +14,6 @@ export abstract class Producer<T extends EventPrototype> {
   get getProducer() {
     return this.producer;
   }
-  private async createAdmin() {
-    let admin = this.client.admin();
-    await admin.connect();
-    return {
-      topicExists: async () => {
-        let topics = await admin.listTopics();
-        return topics.includes(this.topic);
-      },
-      createTopic: async () => {
-        await admin.createTopics({
-          topics: [
-            { topic: this.topic, numPartitions: 2, replicationFactor: 1 },
-          ],
-          waitForLeaders: true,
-        });
-      },
-    };
-  }
   async createProducer(
     options: { allowAutoTopicCreation: boolean } = {
       allowAutoTopicCreation: false,
@@ -42,10 +24,6 @@ export abstract class Producer<T extends EventPrototype> {
     await producer.connect();
 
     this.producer = producer;
-    let admin = await this.createAdmin();
-    if (!(await admin.topicExists())) {
-      await admin.createTopic();
-    }
     console.log("producer created");
   }
   async produceMessage({ data }: { data: T["data"] }) {

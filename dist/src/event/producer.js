@@ -16,6 +16,9 @@ class Producer {
         this.producer = null;
         this.transaction = null;
     }
+    get getProducer() {
+        return this.producer;
+    }
     createAdmin() {
         return __awaiter(this, void 0, void 0, function* () {
             let admin = this.client.admin();

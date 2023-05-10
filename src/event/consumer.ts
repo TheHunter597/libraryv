@@ -12,22 +12,26 @@ export abstract class Consumer<T extends EventPrototype> {
     this.consumer = null;
   }
   private async createAdmin() {
-    let admin = this.client.admin();
-    await admin.connect();
-    return {
-      topicExists: async () => {
-        let topics = await admin.listTopics();
-        return topics.includes(this.topic);
-      },
-      createTopic: async () => {
-        await admin.createTopics({
-          topics: [
-            { topic: this.topic, numPartitions: 2, replicationFactor: 1 },
-          ],
-          waitForLeaders: true,
-        });
-      },
-    };
+    try {
+      let admin = this.client.admin();
+      await admin.connect();
+      return {
+        topicExists: async () => {
+          let topics = await admin.listTopics();
+          return topics.includes(this.topic);
+        },
+        createTopic: async () => {
+          await admin.createTopics({
+            topics: [
+              { topic: this.topic, numPartitions: 2, replicationFactor: 1 },
+            ],
+            waitForLeaders: true,
+          });
+        },
+      };
+    } catch (err) {
+      console.log(err);
+    }
   }
   async createConsumer(
     options: { fromBeginning: boolean; timeout: number } = {
@@ -41,9 +45,16 @@ export abstract class Consumer<T extends EventPrototype> {
       heartbeatInterval: timeout,
     });
     let admin = await this.createAdmin();
-    if (!(await admin.topicExists())) {
-      await admin.createTopic();
+    try {
+      if (!(await admin?.topicExists())) {
+        console.log("creating Topic");
+
+        await admin?.createTopic();
+      }
+    } catch (err) {
+      console.log(err);
     }
+
     await consumer.connect();
     await consumer.subscribe({
       topics: [this.topic],

@@ -7,6 +7,7 @@ export declare abstract class Consumer<T extends EventPrototype> {
     consumer: ConsumerType | null;
     abstract listen(): void;
     constructor(client: Kafka);
+    private createAdmin;
     createConsumer(options?: {
         fromBeginning: boolean;
         timeout: number;
