@@ -69,8 +69,12 @@ export abstract class Consumer<T extends EventPrototype> {
     if (message.value == undefined) {
       throw new Error("Message doesnt have a value");
     } else {
-      value = JSON.parse(message.value?.toString());
-      return value;
+      try {
+        value = JSON.parse(message.value?.toString());
+        return value;
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
   async shutdownConsumer() {

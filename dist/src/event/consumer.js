@@ -17,22 +17,27 @@ class Consumer {
     }
     createAdmin() {
         return __awaiter(this, void 0, void 0, function* () {
-            let admin = this.client.admin();
-            yield admin.connect();
-            return {
-                topicExists: () => __awaiter(this, void 0, void 0, function* () {
-                    let topics = yield admin.listTopics();
-                    return topics.includes(this.topic);
-                }),
-                createTopic: () => __awaiter(this, void 0, void 0, function* () {
-                    yield admin.createTopics({
-                        topics: [
-                            { topic: this.topic, numPartitions: 2, replicationFactor: 1 },
-                        ],
-                        waitForLeaders: true,
-                    });
-                }),
-            };
+            try {
+                let admin = this.client.admin();
+                yield admin.connect();
+                return {
+                    topicExists: () => __awaiter(this, void 0, void 0, function* () {
+                        let topics = yield admin.listTopics();
+                        return topics.includes(this.topic);
+                    }),
+                    createTopic: () => __awaiter(this, void 0, void 0, function* () {
+                        yield admin.createTopics({
+                            topics: [
+                                { topic: this.topic, numPartitions: 2, replicationFactor: 1 },
+                            ],
+                            waitForLeaders: true,
+                        });
+                    }),
+                };
+            }
+            catch (err) {
+                console.log(err);
+            }
         });
     }
     createConsumer(options = {
@@ -46,8 +51,14 @@ class Consumer {
                 heartbeatInterval: timeout,
             });
             let admin = yield this.createAdmin();
-            if (!(yield admin.topicExists())) {
-                yield admin.createTopic();
+            try {
+                if (!(yield (admin === null || admin === void 0 ? void 0 : admin.topicExists()))) {
+                    console.log("creating Topic");
+                    yield (admin === null || admin === void 0 ? void 0 : admin.createTopic());
+                }
+            }
+            catch (err) {
+                console.log(err);
             }
             yield consumer.connect();
             yield consumer.subscribe({

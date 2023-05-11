@@ -7,7 +7,6 @@ export declare abstract class Producer<T extends EventPrototype> {
     private client;
     constructor(client: Kafka);
     get getProducer(): ProducerType | null;
-    private createAdmin;
     createProducer(options?: {
         allowAutoTopicCreation: boolean;
     }): Promise<void>;
