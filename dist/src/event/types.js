@@ -8,6 +8,8 @@ var Topics;
     /////////////
     Topics["OrderCreated"] = "order-created";
     Topics["OrderCancelled"] = "order-cancelled";
+    /////////////
+    Topics["OrderExpired"] = "order-expired";
 })(Topics = exports.Topics || (exports.Topics = {}));
 ////
 var statusType;

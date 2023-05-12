@@ -2,9 +2,10 @@ export declare enum Topics {
     TicketCreated = "ticket-created",
     TicketUpdated = "ticket-updated",
     OrderCreated = "order-created",
-    OrderCancelled = "order-cancelled"
+    OrderCancelled = "order-cancelled",
+    OrderExpired = "order-expired"
 }
-export type messagesContent = ticketMessageContent | orderCreatedMessageContent | orderCancelledMessageContent;
+export type messagesContent = ticketMessageContent | orderCreatedMessageContent | orderCancelledMessageContent | orderExpiredMessageContent;
 export interface EventPrototype {
     Topic: Topics;
     data: messagesContent;
@@ -48,6 +49,9 @@ export interface orderCancelledMessageContent {
         id: string;
     };
 }
+export interface orderExpiredMessageContent {
+    orderId: string;
+}
 export interface orderCreatedEvent {
     Topic: Topics.OrderCreated;
     data: orderCreatedMessageContent;
@@ -55,4 +59,8 @@ export interface orderCreatedEvent {
 export interface orderCancelledEvent {
     Topic: Topics.OrderCancelled;
     data: orderCancelledMessageContent;
+}
+export interface orderExpiredEvent {
+    Topic: Topics.OrderExpired;
+    data: orderExpiredMessageContent;
 }

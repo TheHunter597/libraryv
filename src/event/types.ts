@@ -6,6 +6,8 @@ export enum Topics {
   OrderCancelled = "order-cancelled",
   /////////////
   OrderExpired = "order-expired",
+  /////////////
+  PaymentCompleted = "payment-completed",
 }
 
 export type messagesContent =
@@ -65,6 +67,10 @@ export interface orderCancelledMessageContent {
     id: string;
   };
 }
+export interface PaymentCompletedMessageContent {
+  id: string;
+  orderId: string;
+}
 export interface orderExpiredMessageContent {
   orderId: string;
 }
@@ -81,4 +87,8 @@ export interface orderCancelledEvent {
 export interface orderExpiredEvent {
   Topic: Topics.OrderExpired;
   data: orderExpiredMessageContent;
+}
+export interface paymentCompletedEvent {
+  Topic: Topics.PaymentCompleted;
+  data: PaymentCompletedMessageContent;
 }

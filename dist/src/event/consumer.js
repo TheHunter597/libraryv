@@ -77,8 +77,13 @@ class Consumer {
             throw new Error("Message doesnt have a value");
         }
         else {
-            value = JSON.parse((_a = message.value) === null || _a === void 0 ? void 0 : _a.toString());
-            return value;
+            try {
+                value = JSON.parse((_a = message.value) === null || _a === void 0 ? void 0 : _a.toString());
+                return value;
+            }
+            catch (err) {
+                console.log(err);
+            }
         }
     }
     shutdownConsumer() {
